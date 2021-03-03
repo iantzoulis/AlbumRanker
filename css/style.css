@@ -1,0 +1,22 @@
+body {
+    background-color: black;
+}
+
+.title {
+    min-width: 0;
+    width: inherit;
+    font-size: 2.6em;
+    background-color: inherit;
+    margin-top: 3vh;
+}
+
+.no-border {
+    border-style: none;
+    border-color: transparent;
+    overflow: auto;
+}
+
+.row-input {
+    background-color: inherit;
+    font-size: 1.2em;
+}
