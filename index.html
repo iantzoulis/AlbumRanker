@@ -14,7 +14,8 @@
 <body>
     <div class="container page-header">
         <h1><a class="text-white" href="index.html">Album Ranker</a></h1>
-        <p class="text-white">Welcome! Begin by entering some of your favorite albums into the grid. Items can then be sorted by dragging and dropping them in your desired position.</p>
+        <p class="text-white">Welcome! Begin by entering some of your favorite albums into the grid. Items can then be sorted by dragging and dropping them in your desired position. To delete an item
+            from the list, press the delete button on the rightmost column of the row you would like to delete.</p>
     </div>
 
     <main class="container border-dark" role="main">
@@ -22,11 +23,12 @@
             <input type="text" class="title no-border text-center text-white mb-3" name="ranker-title" placeholder="Title">
 
             <table class="table table-bordered text-white" id="ranker-table">
-                <thead class="text-center">
+                <thead>
                     <tr>
-                        <th scope="col">Rank #</th>
-                        <th scope="col">Album Title</th>
-                        <th scope="col">Artist</th>
+                        <th style="width: 10%">Rank #</th>
+                        <th style="width: 40%">Album Title</th>
+                        <th style="width: 40%">Artist</th>
+                        <th style="width: 10%"></th>
                     </tr>
                 </thead>
 
@@ -58,9 +60,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
-    <script src="extensions/resizable/bootstrap-table-resizable.js"></script>
     <script src="js/script.js"></script>
 </body>
 

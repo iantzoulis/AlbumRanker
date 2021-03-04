@@ -20,3 +20,7 @@ body {
     background-color: inherit;
     font-size: 1.2em;
 }
+
+.del-icon {
+    cursor: pointer;
+}
