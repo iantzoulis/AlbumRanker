@@ -67,17 +67,17 @@ function saveTableInfo() {
         arr.push(new EntryInfo(rank, albumTitle, artist));
     });
 
-    localStorage.setItem('title', JSON.stringify(title));
-    localStorage.setItem('ranker-table', JSON.stringify(arr));
+    sessionStorage.setItem('title', JSON.stringify(title));
+    sessionStorage.setItem('ranker-table', JSON.stringify(arr));
 }
 
 function loadTableInfo() {
-    if (localStorage.getItem('ranker-table')) {
+    if (sessionStorage.getItem('ranker-table')) {
         var arr = [];
-        arr = JSON.parse(localStorage.getItem('ranker-table'));
+        arr = JSON.parse(sessionStorage.getItem('ranker-table'));
 
         var title = document.getElementById('ranker-title');
-        title.value = JSON.parse(localStorage.getItem('title'));
+        title.value = JSON.parse(sessionStorage.getItem('title'));
 
         var table = document.getElementById('ranker-table').getElementsByTagName('tbody')[0];
         for (var i = 0; i < arr.length; i++) {
@@ -113,7 +113,7 @@ function clearList() {
     for (let i = table.rows.length - 1; i > 0; i--) {
         table.deleteRow(i);
     }
-    localStorage.clear();
+    sessionStorage.clear();
 
     document.getElementById('ranker-title').value = '';
     document.getElementById('album-input').value = '';
