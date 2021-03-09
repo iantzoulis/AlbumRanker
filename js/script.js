@@ -12,6 +12,11 @@ $(function () {
     $('tbody').disableSelection();
 });
 
+$('#ranker-title').change(function () {
+    var title = document.getElementById('ranker-title').value.trim();
+    localStorage.setItem('title', JSON.stringify(title));
+})
+
 $(document).on('click', '.del-icon', function () {
     $(this).closest('tr.item').remove();
     $('.rank').each(function (i) {
@@ -57,7 +62,6 @@ function EntryInfo(rank, albumTitle, artist) {
 }
 
 function saveTableInfo() {
-    var title = document.getElementById('ranker-title').value.trim();
     var arr = [];
     $('#ranker-table').find('tbody tr').each(function (index, item) {
 
@@ -67,17 +71,16 @@ function saveTableInfo() {
         arr.push(new EntryInfo(rank, albumTitle, artist));
     });
 
-    sessionStorage.setItem('title', JSON.stringify(title));
-    sessionStorage.setItem('ranker-table', JSON.stringify(arr));
+    localStorage.setItem('ranker-table', JSON.stringify(arr));
 }
 
 function loadTableInfo() {
-    if (sessionStorage.getItem('ranker-table')) {
+    if (localStorage.getItem('ranker-table')) {
         var arr = [];
-        arr = JSON.parse(sessionStorage.getItem('ranker-table'));
+        arr = JSON.parse(localStorage.getItem('ranker-table'));
 
         var title = document.getElementById('ranker-title');
-        title.value = JSON.parse(sessionStorage.getItem('title'));
+        title.value = JSON.parse(localStorage.getItem('title'));
 
         var table = document.getElementById('ranker-table').getElementsByTagName('tbody')[0];
         for (var i = 0; i < arr.length; i++) {
@@ -113,7 +116,7 @@ function clearList() {
     for (let i = table.rows.length - 1; i > 0; i--) {
         table.deleteRow(i);
     }
-    sessionStorage.clear();
+    localStorage.clear();
 
     document.getElementById('ranker-title').value = '';
     document.getElementById('album-input').value = '';
