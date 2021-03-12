@@ -25,6 +25,41 @@ $(document).on('click', '.del-icon', function () {
     saveTableInfo();
 });
 
+$('#addItem-Btn').on('click', function () {
+    addItem();
+});
+
+$('#exportList-Btn').on('click', function () {
+    exportList();
+});
+
+$('#clearList-Btn').on('click', function () {
+    if (confirm('Please confirm that you would like to delete all items in the list. Once deleted, your list cannot be restored.')) {
+        clearList();
+    }
+});
+
+$('#importList-Btn').on('click', function () {
+    var fileInput = document.getElementById('file-input');
+    fileInput.click();
+});
+
+$('#file-input').change(function (e) {
+    onFileInputChange(e);
+});
+
+function onFileInputChange(event) {
+    var reader = new FileReader();
+    reader.onload = onReaderLoad;
+    reader.readAsText(event.target.files[0]);
+}
+
+function onReaderLoad(event) {
+    var obj = JSON.parse(event.target.result);
+    importList(obj);
+}
+
+
 function addItem() {
     albumTitle = document.getElementById('album-input').value.trim();
     artist = document.getElementById('artist-input').value.trim();
@@ -71,13 +106,13 @@ function saveTableInfo() {
         arr.push(new EntryInfo(rank, albumTitle, artist));
     });
 
-    localStorage.setItem('ranker-table', JSON.stringify(arr));
+    localStorage.setItem('table', JSON.stringify(arr));
 }
 
 function loadTableInfo() {
-    if (localStorage.getItem('ranker-table')) {
+    if (localStorage.getItem('table')) {
         var arr = [];
-        arr = JSON.parse(localStorage.getItem('ranker-table'));
+        arr = JSON.parse(localStorage.getItem('table'));
 
         var title = document.getElementById('ranker-title');
         title.value = JSON.parse(localStorage.getItem('title'));
@@ -102,13 +137,45 @@ function loadTableInfo() {
     }
 }
 
-function confirmListDeletion() {
-    if (confirm('Please confirm that you would like to delete all items in the list. Once deleted, your list cannot be restored.')) {
-        clearList();
+function importList(obj) {
+    clearList();
+
+    document.getElementById('ranker-title').value = JSON.parse(obj.title);
+    var arr = [];
+    arr = JSON.parse(obj.table);
+
+    var table = document.getElementById('ranker-table').getElementsByTagName('tbody')[0];
+    for (var i = 0; i < arr.length; i++) {
+        var row = table.insertRow();
+        row.className = 'item';
+
+        var rankCell = row.insertCell(0);
+        rankCell.className = 'rank';
+
+        var albumTitleCell = row.insertCell(1);
+        var artistCell = row.insertCell(2);
+        var deleteCell = row.insertCell(3);
+
+        rankCell.innerHTML = arr[i].Rank;
+        albumTitleCell.innerHTML = arr[i].AlbumTitle;
+        artistCell.innerHTML = arr[i].Artist;
+        deleteCell.innerHTML = '<div class="text-center del-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" /></svg></div>';
     }
-    else {
-        return;
-    }
+}
+
+function exportList() {
+    var contents = JSON.stringify(localStorage);
+    var date = new Date();
+    var fileName = localStorage.getItem('title').replace(/ /g, '') + '_' + date.toISOString().replace(/[:.]/g, '-') + '.json';
+
+    var elem = document.createElement('a');
+    elem.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(contents));
+    elem.setAttribute('download', fileName);
+    elem.style.display = 'none';
+
+    document.body.appendChild(elem);
+    elem.click();
+    document.body.removeChild(elem);
 }
 
 function clearList() {
